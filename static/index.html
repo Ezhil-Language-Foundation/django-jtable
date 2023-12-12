@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Bootstrap JS bundled with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous" async></script>
+
+    <!-- jQuery -->
+	  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+    <link href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+
+    <!-- jTable -->
+    <script src="/static/jtable2.4.0/jquery.jtable.js"></script>
+     <link href="/static/jtable2.4.0/themes/metro/blue/jtable.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- jTable Script (tableContainer) -->
+     <script type="text/javascript">
+       $(document).ready(function () {
+           $.ajax({
+	       url: '/action/csrf/',
+	       type: 'GET',
+	       dataType : 'json',
+	       data: {},
+	       success : function(data) {
+                  var csrfToken = '';
+		   
+		   csrfToken = data['csrfToken'];
+		   console.log('Obtained the CSRF Token from server = '+csrfToken);
+               }
+	   });
+       });
+
+
+       
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+		    }
+		    
+       function curry_with_csrf( postData ) {
+           var csrfToken = getCookie("csrftoken");
+           if ( postData ) {
+              postData += '&csrfmiddlewaretoken='+csrfToken;
+           } else {
+              postData = {'csrfmiddlewaretoken':csrfToken};
+           }
+	   console.log('curry with csrf =>')
+		    console.log(postData)
+		    console.log('orig csrf in cookie => ')
+		    console.log(csrfToken)
+           return postData;
+       }
+
+		    $(document).ready(() => {
+	 setup_after_csrf_acquisition();
+	 });
+       function setup_after_csrf_acquisition() {
+            $('#tableContainer').jtable({
+                title: 'The Student List',
+                paging: true, //Enable paging
+                pageSize: 50, //Set page size (default: 10)
+                sorting: true, //Enable sorting
+                defaultSorting: 'Name ASC', //Set default sorting
+                selecting: true,
+                actions: {
+                    listAction: function (postData, jtParams) {
+                        console.log('LIST ACTION')
+                        console.log(jtParams)
+                        postData = curry_with_csrf( postData )
+                        return $.Deferred(function ($dfd) {
+                            $.ajax({
+                                url: '/action/listAction/?jtStartIndex=' + jtParams.jtStartIndex + '&jtPageSize=' + jtParams.jtPageSize + '&jtSorting=' + jtParams.jtSorting,
+                                type: 'POST',
+                                dataType: 'json',
+                                data: postData,
+                                success: function (data) {
+                                    $dfd.resolve(data);
+                                },
+                                error: function () {
+                                    $dfd.reject();
+                                }
+                            });
+                        });
+                    },
+                    deleteAction: function (postData) {
+                        console.log('DELETE ACTION')
+                        postData = curry_with_csrf( postData )
+                        return $.Deferred(function ($dfd) {
+                            $.ajax({
+                                url: '/action/deleteAction/',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: postData,
+                                success: function (data) {
+                                    $dfd.resolve(data);
+                                },
+                                error: function () {
+                                    $dfd.reject();
+                                }
+                            });
+                        });
+                    },
+                    updateAction: function (postData) {
+                        console.log('UPDATE ACTION')
+                        postData = curry_with_csrf( postData )
+                        console.log(postData)
+                        return $.Deferred(function ($dfd) {
+                            $.ajax({
+                                url: '/action/updateAction/',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: postData,
+                                success: function (data) {
+                                    $dfd.resolve(data);
+                                },
+                                error: function () {
+                                    $dfd.reject();
+                                }
+                            });
+                        });
+                    },
+                    createAction: function (postData) {
+                        console.log('CREATE ACTION')
+                        postData = curry_with_csrf( postData )
+                        console.log(postData)
+                        return $.Deferred(function ($dfd) {
+                            $.ajax({
+                                url: '/action/createAction/',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: postData,
+                                success: function (data) {
+                                    $dfd.resolve(data);
+                                },
+                                error: function () {
+                                    $dfd.reject();
+                                }
+                            });
+                        });
+                    },
+                },
+                fields: {
+                    StudentId: {
+                        key: true,      // Denotes as a primary key for each record (used for search)
+                        create: false,  // When adding a new record will display the field
+                        edit: false,    // Makes the field editable when editing a record
+                        list: false     // Determines if field is displayed
+                    },
+                    Name: {
+                        title: 'Name',
+                        width: '23%'
+                    },
+                    EmailAddress: {
+                        title: 'Email address',
+                        list: false
+                    },
+                    Password: {
+                        title: 'User Password',
+                        type: 'password',
+                        list: false
+                    },
+                    Gender: {
+                        title: 'Gender',
+                        width: '13%',
+                        options: { 'M': 'Male', 'F': 'Female' }
+                    },
+                    BirthDate: {
+                        title: 'Birth date',
+                        width: '15%',
+                        type: 'date',
+                        displayFormat: 'yy-mm-dd'
+                    },
+                    Education: {
+                        title: 'Education',
+                        list: false,
+                        type: 'radiobutton',
+                        options: { '1': 'Primary school',
+                                   '2': 'High school',
+                                   '3': 'University' }
+                    },
+                    About: {
+                        title: 'About this person',
+                        type: 'textarea',
+                        list: false
+                    },
+                    IsActive: {
+                        title: 'Status',
+                        width: '12%',
+                        type: 'checkbox',
+                        values: { 'false': 'Passive', 'true': 'Active' },
+                        defaultValue: 'true'
+                    },
+                    RecordDate: {
+                        title: 'Record date',
+                        width: '15%',
+                        type: 'date',
+                        displayFormat: 'dd.mm.yy',
+                        create: false,
+                        edit: false,
+                        sorting: false // This column is not sortable!
+                    }
+                }
+            });
+
+            //Load student list from server
+            $('#tableContainer').jtable('load');
+        };
+    </script>
+
+    <!-- Custom stylings for Bootstrap-->
+    <style>
+        .nav-pills a.nav-link {
+            color: white;
+        }
+
+        .nav-pills a.nav-link:hover {
+            color: grey;
+            text-decoration: underline;
+        }
+
+        .nav-pills .nav-link.active {
+            color: black;
+            background-color: white;
+        }
+    </style>
+
+    <title>jTable Bootstrap Django</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+
+            <div class="container-fluid col px-0 mt-1">
+                <main>
+                    <div id="tableContainer"></div>     <!-- ALl you need to do is add a div with its id -->
+                </main>
+            </div>
+
+        </div>
+    </div>
+
+  </body>
+</html>

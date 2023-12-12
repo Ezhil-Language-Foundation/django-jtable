@@ -1,0 +1,18 @@
+db.sqlite3
+django server/mysite/polls/__init__.py
+django server/mysite/polls/admin.py
+django server/mysite/polls/apps.py
+django server/mysite/polls/models.py
+django server/mysite/polls/tests.py
+django server/mysite/polls/urls.py
+django server/mysite/polls/views.py
+django server/mysite/polls/__pycache__/__init__.cpython-310.pyc
+django server/mysite/polls/__pycache__/admin.cpython-310.pyc
+django server/mysite/polls/__pycache__/apps.cpython-310.pyc
+django server/mysite/polls/__pycache__/models.cpython-310.pyc
+django server/mysite/polls/__pycache__/urls.cpython-310.pyc
+django server/mysite/polls/__pycache__/views.cpython-310.pyc
+django server/mysite/polls/migrations/__init__.py
+django server/mysite/polls/migrations/0001_initial.py
+django server/mysite/polls/migrations/__pycache__/__init__.cpython-310.pyc
+django server/mysite/polls/migrations/__pycache__/0001_initial.cpython-310.pyc
