@@ -4,7 +4,7 @@ from urllib.request import Request
 from django.db.models import Model, F
 from django.http import JsonResponse, HttpRequest
 
-from django_jtables.models import Student
+from student.models import Student
 
 
 class ModelViewBuilder:

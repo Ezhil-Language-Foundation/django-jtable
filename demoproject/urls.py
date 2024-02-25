@@ -21,6 +21,6 @@ to_home = RedirectView.as_view(url="/static/index.html")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("action/", include("django_jtables.urls")),
+    path("action/", include("student.urls")),
     path("", to_home),
 ]

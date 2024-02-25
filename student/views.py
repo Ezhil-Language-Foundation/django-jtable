@@ -1,6 +1,6 @@
 from django.http import HttpRequest
 
-from .models import Student
+from student.models import Student
 
 from django.http import JsonResponse
 from django.middleware.csrf import get_token

@@ -38,6 +38,7 @@ DEBUG = True
 
 INSTALLED_APPS = [
     "django_jtables.apps.TablesConfig",
+    "student.apps.StudentConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
