@@ -17,10 +17,10 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import RedirectView
 
-to_home = RedirectView.as_view(url='/static/index.html')
+to_home = RedirectView.as_view(url="/static/index.html")
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('action/', include('django_jtables.urls')),
-    path('', to_home),
+    path("admin/", admin.site.urls),
+    path("action/", include("django_jtables.urls")),
+    path("", to_home),
 ]

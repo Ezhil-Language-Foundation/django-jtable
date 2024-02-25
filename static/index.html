@@ -51,25 +51,24 @@ function getCookie(name) {
         if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
     }
     return null;
-		    }
+}
 		    
        function curry_with_csrf( postData ) {
            var csrfToken = getCookie("csrftoken");
-           if ( postData ) {
-              postData += '&csrfmiddlewaretoken='+csrfToken;
+           postData2 = {'csrfmiddlewaretoken':csrfToken};
+           if ( typeof(postData) == "object" ) {
+              postData = Object.assign({},postData,postData2);
+           } else if ( typeof(postData) == "undefined" ) {
+              return postData2
            } else {
-              postData = {'csrfmiddlewaretoken':csrfToken};
+             postData += '&csrfmiddlewaretoken='+csrfToken;
            }
-	   console.log('curry with csrf =>')
-		    console.log(postData)
-		    console.log('orig csrf in cookie => ')
-		    console.log(csrfToken)
            return postData;
        }
 
-		    $(document).ready(() => {
-	 setup_after_csrf_acquisition();
-	 });
+	    $(document).ready(() => {
+            setup_after_csrf_acquisition();
+        });
        function setup_after_csrf_acquisition() {
             $('#tableContainer').jtable({
                 title: 'The Student List',
@@ -100,7 +99,8 @@ function getCookie(name) {
                     },
                     deleteAction: function (postData) {
                         console.log('DELETE ACTION')
-                        postData = curry_with_csrf( postData )
+                        postData = curry_with_csrf(postData)
+                        console.log(postData)
                         return $.Deferred(function ($dfd) {
                             $.ajax({
                                 url: '/action/deleteAction/',
@@ -160,7 +160,8 @@ function getCookie(name) {
                         key: true,      // Denotes as a primary key for each record (used for search)
                         create: false,  // When adding a new record will display the field
                         edit: false,    // Makes the field editable when editing a record
-                        list: false     // Determines if field is displayed
+                        list: false,     // Determines if field is displayed
+                        delete: false,
                     },
                     Name: {
                         title: 'Name',
