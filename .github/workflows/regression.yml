@@ -1,5 +1,4 @@
-name: Open-Tamil Python package
-
+name: Django-JTable Package
 on:
   workflow_dispatch:
   push:
@@ -8,7 +7,6 @@ on:
   pull_request:
     branches:
       - "main"
-
 jobs:
   test-student-project:
     runs-on: ubuntu-latest
@@ -26,9 +24,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     # Runs a single command using the runners shell
-    - name: Custom Python Test for Open-Tamil
-      run:
-    - name: Run Tests
+    - name: Custom Python Test for Django-JTable
       run: |
         python manage.py makemigrations
         python manage.py migrate 
