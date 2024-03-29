@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-
+app_name='student'
 urlpatterns = [
     path("csrf/", views.csrf, name="csrf"),
     path("listAction/", views.listAction, name="listAction"),
