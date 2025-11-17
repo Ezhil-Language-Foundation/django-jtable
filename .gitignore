@@ -1,3 +1,8 @@
+.idea/
+demoproject/__pycache__/
+student/__pycache__/
+venv
+venv/*
 db.sqlite3
 django server/mysite/polls/__init__.py
 django server/mysite/polls/admin.py

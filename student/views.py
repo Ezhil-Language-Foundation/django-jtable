@@ -5,7 +5,7 @@ from student.models import Student
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 
-from django_jtables.viewbuilder import ModelViewBuilder
+from django_jtable.viewbuilder import ModelViewBuilder
 
 
 def csrf(request):

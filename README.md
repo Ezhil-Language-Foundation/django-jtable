@@ -3,6 +3,10 @@ Instructions to start the Django server
 2. Run the command "python3 manage.py migrate --run-syncdb" (if this did not work you can also try,
    "python3 manage.py migrate --run-syncdb")
 3. You should see something like,
+
+
+![Example Use](static/assets/edit_example.png)
+
 ```	
 Operations to perform:
   Synchronize unmigrated apps: corsheaders, messages, staticfiles, tables
@@ -49,9 +53,13 @@ The currently accessible links are:
 
 
 6. LICENSE
-   - the Django JTables project is licensed under the MIT License as well like the JTables widget.
-   - the original JTables widget is distributed in this package but not part of this project
+   - the Django JTable project is licensed under the MIT License as well like the JTable widget.
+   - the original JTable widget is distributed in this package but not part of this project
      jTable is developed by Halil İbrahim Kalkan and licensed under MIT License. See: https://www.jtable.org/Home/About
 
-8/3/2022.
-12/11/2023.
+7. Works with jTable 2.4.0; please download and install this package; it is not distributed with the pypi package.
+
+Notes
+-----
+- Created: 8/3/2022
+- Last updated: 11/17/2025

@@ -37,7 +37,7 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [
-    "django_jtables.apps.TablesConfig",
+    "django_jtable.apps.TablesConfig",
     "student.apps.StudentConfig",
     "django.contrib.admin",
     "django.contrib.auth",
