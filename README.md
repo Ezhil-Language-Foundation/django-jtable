@@ -1,3 +1,5 @@
+[![Published on Django Packages](https://img.shields.io/badge/Published%20on-Django%20Packages-0c3c26)](https://djangopackages.org/packages/p/django-jtable/)
+
 Instructions to start the Django server
 1. You should now be running the virtual environment from the project's root folder.
 2. Run the command "python3 manage.py migrate --run-syncdb" (if this did not work you can also try,
